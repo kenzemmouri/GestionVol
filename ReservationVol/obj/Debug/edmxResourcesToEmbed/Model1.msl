@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GestionVolsModelStoreContainer" CdmEntityContainer="GestionVolsEntities">
+    <EntitySetMapping Name="Appreciations">
+      <EntityTypeMapping TypeName="GestionVolsModel.Appreciation">
+        <MappingFragment StoreEntitySet="Appreciation">
+          <ScalarProperty Name="idAppreciation" ColumnName="idAppreciation" />
+          <ScalarProperty Name="commentaire" ColumnName="commentaire" />
+          <ScalarProperty Name="idVol" ColumnName="idVol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="GestionVolsModel.Client">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="idClient" ColumnName="idClient" />
+          <ScalarProperty Name="nomClient" ColumnName="nomClient" />
+          <ScalarProperty Name="prenomClient" ColumnName="prenomClient" />
+          <ScalarProperty Name="telephoneClient" ColumnName="telephoneClient" />
+          <ScalarProperty Name="emailClient" ColumnName="emailClient" />
+          <ScalarProperty Name="clientPrincipal" ColumnName="clientPrincipal" />
+          <ScalarProperty Name="ageClient" ColumnName="ageClient" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Conseillers">
+      <EntityTypeMapping TypeName="GestionVolsModel.Conseiller">
+        <MappingFragment StoreEntitySet="Conseiller">
+          <ScalarProperty Name="idConseiller" ColumnName="idConseiller" />
+          <ScalarProperty Name="nomConseiller" ColumnName="nomConseiller" />
+          <ScalarProperty Name="prenomConseiller" ColumnName="prenomConseiller" />
+          <ScalarProperty Name="telephoneConseiller" ColumnName="telephoneConseiller" />
+          <ScalarProperty Name="emailConseiller" ColumnName="emailConseiller" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Penalites">
+      <EntityTypeMapping TypeName="GestionVolsModel.Penalite">
+        <MappingFragment StoreEntitySet="Penalite">
+          <ScalarProperty Name="idPenalite" ColumnName="idPenalite" />
+          <ScalarProperty Name="montant" ColumnName="montant" />
+          <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+          <ScalarProperty Name="idTransaction" ColumnName="idTransaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservations">
+      <EntityTypeMapping TypeName="GestionVolsModel.Reservation">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+          <ScalarProperty Name="dateReservation" ColumnName="dateReservation" />
+          <ScalarProperty Name="idVol" ColumnName="idVol" />
+          <ScalarProperty Name="idClient" ColumnName="idClient" />
+          <ScalarProperty Name="idConseiller" ColumnName="idConseiller" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="GestionVolsModel.Transaction">
+        <MappingFragment StoreEntitySet="Transaction">
+          <ScalarProperty Name="idTransaction" ColumnName="idTransaction" />
+          <ScalarProperty Name="dateTransaction" ColumnName="dateTransaction" />
+          <ScalarProperty Name="montantTransaction" ColumnName="montantTransaction" />
+          <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vols">
+      <EntityTypeMapping TypeName="GestionVolsModel.Vol">
+        <MappingFragment StoreEntitySet="Vol">
+          <ScalarProperty Name="idVol" ColumnName="idVol" />
+          <ScalarProperty Name="prixVol" ColumnName="prixVol" />
+          <ScalarProperty Name="dateDepart" ColumnName="dateDepart" />
+          <ScalarProperty Name="dateRetour" ColumnName="dateRetour" />
+          <ScalarProperty Name="villeDepart" ColumnName="villeDepart" />
+          <ScalarProperty Name="villeDestination" ColumnName="villeDestination" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

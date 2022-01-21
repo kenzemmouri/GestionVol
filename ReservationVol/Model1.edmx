@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GestionVolsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appreciation">
+          <Key>
+            <PropertyRef Name="idAppreciation" />
+          </Key>
+          <Property Name="idAppreciation" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="commentaire" Type="nvarchar" MaxLength="100" />
+          <Property Name="idVol" Type="numeric" Precision="5" Scale="0" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="idClient" />
+          </Key>
+          <Property Name="idClient" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="nomClient" Type="nvarchar" MaxLength="25" />
+          <Property Name="prenomClient" Type="nvarchar" MaxLength="25" />
+          <Property Name="telephoneClient" Type="nvarchar" MaxLength="15" />
+          <Property Name="emailClient" Type="nvarchar" MaxLength="15" />
+          <Property Name="clientPrincipal" Type="bit" />
+          <Property Name="ageClient" Type="numeric" Precision="2" Scale="0" />
+        </EntityType>
+        <EntityType Name="Conseiller">
+          <Key>
+            <PropertyRef Name="idConseiller" />
+          </Key>
+          <Property Name="idConseiller" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="nomConseiller" Type="nvarchar" MaxLength="25" />
+          <Property Name="prenomConseiller" Type="nvarchar" MaxLength="25" />
+          <Property Name="telephoneConseiller" Type="nvarchar" MaxLength="15" />
+          <Property Name="emailConseiller" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Penalite">
+          <Key>
+            <PropertyRef Name="idPenalite" />
+          </Key>
+          <Property Name="idPenalite" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="montant" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="idReservation" Type="nvarchar" MaxLength="8" />
+          <Property Name="idTransaction" Type="numeric" Precision="10" Scale="0" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="idReservation" />
+          </Key>
+          <Property Name="idReservation" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="dateReservation" Type="nvarchar" MaxLength="10" />
+          <Property Name="idVol" Type="numeric" Precision="5" Scale="0" />
+          <Property Name="idClient" Type="numeric" Precision="5" Scale="0" />
+          <Property Name="idConseiller" Type="numeric" Precision="5" Scale="0" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="idTransaction" />
+          </Key>
+          <Property Name="idTransaction" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="dateTransaction" Type="nvarchar" MaxLength="10" />
+          <Property Name="montantTransaction" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="idReservation" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vol">
+          <Key>
+            <PropertyRef Name="idVol" />
+          </Key>
+          <Property Name="idVol" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="prixVol" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="dateDepart" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="dateRetour" Type="nvarchar" MaxLength="10" />
+          <Property Name="villeDepart" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="villeDestination" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Appreciation_Vol">
+          <End Role="Vol" Type="Self.Vol" Multiplicity="0..1" />
+          <End Role="Appreciation" Type="Self.Appreciation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vol">
+              <PropertyRef Name="idVol" />
+            </Principal>
+            <Dependent Role="Appreciation">
+              <PropertyRef Name="idVol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Penalite_Reservation">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Penalite" Type="Self.Penalite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Penalite">
+              <PropertyRef Name="idReservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Penalite_Transaction">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="0..1" />
+          <End Role="Penalite" Type="Self.Penalite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="idTransaction" />
+            </Principal>
+            <Dependent Role="Penalite">
+              <PropertyRef Name="idTransaction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="idClient" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="idClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Conseiller">
+          <End Role="Conseiller" Type="Self.Conseiller" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conseiller">
+              <PropertyRef Name="idConseiller" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="idConseiller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Vol">
+          <End Role="Vol" Type="Self.Vol" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vol">
+              <PropertyRef Name="idVol" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="idVol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Reservation">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="idReservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestionVolsModelStoreContainer">
+          <EntitySet Name="Appreciation" EntityType="Self.Appreciation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conseiller" EntityType="Self.Conseiller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Penalite" EntityType="Self.Penalite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vol" EntityType="Self.Vol" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Appreciation_Vol" Association="Self.FK_Appreciation_Vol">
+            <End Role="Vol" EntitySet="Vol" />
+            <End Role="Appreciation" EntitySet="Appreciation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Penalite_Reservation" Association="Self.FK_Penalite_Reservation">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Penalite" EntitySet="Penalite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Penalite_Transaction" Association="Self.FK_Penalite_Transaction">
+            <End Role="Transaction" EntitySet="Transaction" />
+            <End Role="Penalite" EntitySet="Penalite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Client" Association="Self.FK_Reservation_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Conseiller" Association="Self.FK_Reservation_Conseiller">
+            <End Role="Conseiller" EntitySet="Conseiller" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Vol" Association="Self.FK_Reservation_Vol">
+            <End Role="Vol" EntitySet="Vol" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Reservation" Association="Self.FK_Transaction_Reservation">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GestionVolsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appreciation">
+          <Key>
+            <PropertyRef Name="idAppreciation" />
+          </Key>
+          <Property Name="idAppreciation" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="commentaire" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="idVol" Type="Decimal" Precision="5" Scale="0" />
+          <NavigationProperty Name="Vol" Relationship="Self.FK_Appreciation_Vol" FromRole="Appreciation" ToRole="Vol" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="idClient" />
+          </Key>
+          <Property Name="idClient" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="nomClient" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="prenomClient" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="telephoneClient" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="emailClient" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="clientPrincipal" Type="Boolean" />
+          <Property Name="ageClient" Type="Decimal" Precision="2" Scale="0" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservation_Client" FromRole="Client" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Conseiller">
+          <Key>
+            <PropertyRef Name="idConseiller" />
+          </Key>
+          <Property Name="idConseiller" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="nomConseiller" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="prenomConseiller" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="telephoneConseiller" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="emailConseiller" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservation_Conseiller" FromRole="Conseiller" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Penalite">
+          <Key>
+            <PropertyRef Name="idPenalite" />
+          </Key>
+          <Property Name="idPenalite" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="montant" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="idReservation" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="idTransaction" Type="Decimal" Precision="10" Scale="0" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Penalite_Reservation" FromRole="Penalite" ToRole="Reservation" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Penalite_Transaction" FromRole="Penalite" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="idReservation" />
+          </Key>
+          <Property Name="idReservation" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dateReservation" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="idVol" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="idClient" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="idConseiller" Type="Decimal" Precision="5" Scale="0" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Reservation_Client" FromRole="Reservation" ToRole="Client" />
+          <NavigationProperty Name="Conseiller" Relationship="Self.FK_Reservation_Conseiller" FromRole="Reservation" ToRole="Conseiller" />
+          <NavigationProperty Name="Penalites" Relationship="Self.FK_Penalite_Reservation" FromRole="Reservation" ToRole="Penalite" />
+          <NavigationProperty Name="Vol" Relationship="Self.FK_Reservation_Vol" FromRole="Reservation" ToRole="Vol" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Reservation" FromRole="Reservation" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="idTransaction" />
+          </Key>
+          <Property Name="idTransaction" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="dateTransaction" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="montantTransaction" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="idReservation" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Penalites" Relationship="Self.FK_Penalite_Transaction" FromRole="Transaction" ToRole="Penalite" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Transaction_Reservation" FromRole="Transaction" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Vol">
+          <Key>
+            <PropertyRef Name="idVol" />
+          </Key>
+          <Property Name="idVol" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="prixVol" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="dateDepart" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dateRetour" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="villeDepart" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="villeDestination" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Appreciations" Relationship="Self.FK_Appreciation_Vol" FromRole="Vol" ToRole="Appreciation" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservation_Vol" FromRole="Vol" ToRole="Reservation" />
+        </EntityType>
+        <Association Name="FK_Appreciation_Vol">
+          <End Role="Vol" Type="Self.Vol" Multiplicity="0..1" />
+          <End Role="Appreciation" Type="Self.Appreciation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vol">
+              <PropertyRef Name="idVol" />
+            </Principal>
+            <Dependent Role="Appreciation">
+              <PropertyRef Name="idVol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="idClient" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="idClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Conseiller">
+          <End Role="Conseiller" Type="Self.Conseiller" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conseiller">
+              <PropertyRef Name="idConseiller" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="idConseiller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Penalite_Reservation">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Penalite" Type="Self.Penalite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Penalite">
+              <PropertyRef Name="idReservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Penalite_Transaction">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="0..1" />
+          <End Role="Penalite" Type="Self.Penalite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="idTransaction" />
+            </Principal>
+            <Dependent Role="Penalite">
+              <PropertyRef Name="idTransaction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Vol">
+          <End Role="Vol" Type="Self.Vol" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vol">
+              <PropertyRef Name="idVol" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="idVol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Reservation">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="idReservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestionVolsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appreciations" EntityType="Self.Appreciation" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Conseillers" EntityType="Self.Conseiller" />
+          <EntitySet Name="Penalites" EntityType="Self.Penalite" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="Vols" EntityType="Self.Vol" />
+          <AssociationSet Name="FK_Appreciation_Vol" Association="Self.FK_Appreciation_Vol">
+            <End Role="Vol" EntitySet="Vols" />
+            <End Role="Appreciation" EntitySet="Appreciations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Client" Association="Self.FK_Reservation_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Conseiller" Association="Self.FK_Reservation_Conseiller">
+            <End Role="Conseiller" EntitySet="Conseillers" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Penalite_Reservation" Association="Self.FK_Penalite_Reservation">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="Penalite" EntitySet="Penalites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Penalite_Transaction" Association="Self.FK_Penalite_Transaction">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="Penalite" EntitySet="Penalites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Vol" Association="Self.FK_Reservation_Vol">
+            <End Role="Vol" EntitySet="Vols" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Reservation" Association="Self.FK_Transaction_Reservation">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GestionVolsModelStoreContainer" CdmEntityContainer="GestionVolsEntities">
+          <EntitySetMapping Name="Appreciations">
+            <EntityTypeMapping TypeName="GestionVolsModel.Appreciation">
+              <MappingFragment StoreEntitySet="Appreciation">
+                <ScalarProperty Name="idAppreciation" ColumnName="idAppreciation" />
+                <ScalarProperty Name="commentaire" ColumnName="commentaire" />
+                <ScalarProperty Name="idVol" ColumnName="idVol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="GestionVolsModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="idClient" ColumnName="idClient" />
+                <ScalarProperty Name="nomClient" ColumnName="nomClient" />
+                <ScalarProperty Name="prenomClient" ColumnName="prenomClient" />
+                <ScalarProperty Name="telephoneClient" ColumnName="telephoneClient" />
+                <ScalarProperty Name="emailClient" ColumnName="emailClient" />
+                <ScalarProperty Name="clientPrincipal" ColumnName="clientPrincipal" />
+                <ScalarProperty Name="ageClient" ColumnName="ageClient" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conseillers">
+            <EntityTypeMapping TypeName="GestionVolsModel.Conseiller">
+              <MappingFragment StoreEntitySet="Conseiller">
+                <ScalarProperty Name="idConseiller" ColumnName="idConseiller" />
+                <ScalarProperty Name="nomConseiller" ColumnName="nomConseiller" />
+                <ScalarProperty Name="prenomConseiller" ColumnName="prenomConseiller" />
+                <ScalarProperty Name="telephoneConseiller" ColumnName="telephoneConseiller" />
+                <ScalarProperty Name="emailConseiller" ColumnName="emailConseiller" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Penalites">
+            <EntityTypeMapping TypeName="GestionVolsModel.Penalite">
+              <MappingFragment StoreEntitySet="Penalite">
+                <ScalarProperty Name="idPenalite" ColumnName="idPenalite" />
+                <ScalarProperty Name="montant" ColumnName="montant" />
+                <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+                <ScalarProperty Name="idTransaction" ColumnName="idTransaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="GestionVolsModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+                <ScalarProperty Name="dateReservation" ColumnName="dateReservation" />
+                <ScalarProperty Name="idVol" ColumnName="idVol" />
+                <ScalarProperty Name="idClient" ColumnName="idClient" />
+                <ScalarProperty Name="idConseiller" ColumnName="idConseiller" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="GestionVolsModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="idTransaction" ColumnName="idTransaction" />
+                <ScalarProperty Name="dateTransaction" ColumnName="dateTransaction" />
+                <ScalarProperty Name="montantTransaction" ColumnName="montantTransaction" />
+                <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vols">
+            <EntityTypeMapping TypeName="GestionVolsModel.Vol">
+              <MappingFragment StoreEntitySet="Vol">
+                <ScalarProperty Name="idVol" ColumnName="idVol" />
+                <ScalarProperty Name="prixVol" ColumnName="prixVol" />
+                <ScalarProperty Name="dateDepart" ColumnName="dateDepart" />
+                <ScalarProperty Name="dateRetour" ColumnName="dateRetour" />
+                <ScalarProperty Name="villeDepart" ColumnName="villeDepart" />
+                <ScalarProperty Name="villeDestination" ColumnName="villeDestination" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

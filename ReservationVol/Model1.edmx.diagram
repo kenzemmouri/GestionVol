@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="49ce8255e24a43eb8bb552ccbfe7ebb6" Name="Diagram1">
+        <EntityTypeShape EntityType="GestionVolsModel.Appreciation" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionVolsModel.Client" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionVolsModel.Conseiller" Width="1.5" PointX="3.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionVolsModel.Penalite" Width="1.5" PointX="10.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionVolsModel.Reservation" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionVolsModel.Transaction" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionVolsModel.Vol" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="GestionVolsModel.FK_Appreciation_Vol" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionVolsModel.FK_Reservation_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionVolsModel.FK_Reservation_Conseiller" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionVolsModel.FK_Penalite_Reservation" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionVolsModel.FK_Penalite_Transaction" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionVolsModel.FK_Reservation_Vol" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionVolsModel.FK_Transaction_Reservation" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
