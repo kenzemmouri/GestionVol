@@ -79,7 +79,7 @@
            
 <asp:Button ID="chercherBoutton" runat="server" Text="Lancer la recherche" />
 
-            <asp:Label ID="Label9" runat="server" Text="Label"></asp:Label>
+            <asp:Label ID="Label9" runat="server" Text="Juan"></asp:Label>
 </div>
        
 
